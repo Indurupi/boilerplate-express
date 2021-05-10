@@ -11,6 +11,10 @@ app.use(function logger(req, res, next) {
   next();
 })
 
+app.get("/", function(req, res) {
+  res.sendFile(absolutePath);
+})
+
 app.get("/json", function(req, res) {
   let response = "Hello json";
   if(process.env.MESSAGE_STYLE == "uppercase") {
@@ -19,8 +23,11 @@ app.get("/json", function(req, res) {
   res.json({"message": response });
 })
 
-app.get("/", function(req, res) {
-  res.sendFile(absolutePath);
+app.get("/now", function(req, res, next) {
+  req.time = new Date().toString();
+  next();
+}, function(req, res) {
+  res.json({time: req.time})
 })
 
 module.exports = app;
