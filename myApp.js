@@ -35,9 +35,15 @@ app.get("/now", function(req, res, next) { // this is a middleware function
   res.json({time: req.time})
 })
 
-// fetch data from request param
+// passing request params and return the params in response
 app.get("/:word/echo", function(req, res) {
   res.json({ echo: req.params.word })
+})
+
+// passing queryparams and return the params in response
+app.route("/name").get(function(req, res) { // app route method can be used to have multiple handlers like get and post
+  const { first, last } = req.query;
+  res.json({ name: first +" "+ last})
 })
 
 
