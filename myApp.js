@@ -42,16 +42,15 @@ app.get("/:word/echo", function(req, res) {
   res.json({ echo: req.params.word })
 })
 
-// passing queryparams and return the params in response
-app.route("/name")
-  .get(function(req, res) { // app route method can be used to have multiple handlers like get and post
+// adding post and get for same route
+app.route("/name").get(function(req, res) {
   const { first, last } = req.query;
   res.json({ name: first +" "+ last})
-  })
-  .post(function(req, res) {
+}).post(function(req, res) {
   const { first, last } = req.body;
-  res.json({ name: first +" "+ last})});
-  })
+  res.json({ name: first +" "+ last})
+})
+
 
 
 module.exports = app;
