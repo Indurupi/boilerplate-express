@@ -1,8 +1,10 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser')
 
 
 app.use(express.static(__dirname));
+app.use(bodyParser.urlencoded({extended: false})); // to parse the request body to accepted json format
 
 // this middleware will be called before every request
 app.use(function logger(req, res, next) {
@@ -41,10 +43,15 @@ app.get("/:word/echo", function(req, res) {
 })
 
 // passing queryparams and return the params in response
-app.route("/name").get(function(req, res) { // app route method can be used to have multiple handlers like get and post
+app.route("/name")
+  .get(function(req, res) { // app route method can be used to have multiple handlers like get and post
   const { first, last } = req.query;
   res.json({ name: first +" "+ last})
-})
+  })
+  .post(function(req, res) {
+  const { first, last } = req.body;
+  res.json({ name: first +" "+ last})});
+  })
 
 
 module.exports = app;
