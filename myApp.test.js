@@ -17,3 +17,32 @@ it('test if route /json returns json object', () => {
     }
   ).catch(err => console.log(err))
 })
+
+
+it('test if route /name with get returns concatenated query param', () => {
+  const first = "john";
+  const last= "doe";
+  const result = { name: first+" "+last}
+  request(app)
+  .get("/name")
+  .query({first, last })
+  .then(response=> {
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual(result)
+    }
+  ).catch(err => console.log(err))
+})
+
+it('test if route /name with post returns req body(which is encoded) is returned as object', () => {
+  const first = "john";
+  const last= "doe";
+  const result = { name: first+" "+last}
+  request(app)
+  .post("/name")
+  .set('Accept', 'application/json')
+  .send('first=John&last=Doe') 
+  .expect(response=> {
+    response.body = result
+    }
+  ).catch(err => console.log(err))
+})
